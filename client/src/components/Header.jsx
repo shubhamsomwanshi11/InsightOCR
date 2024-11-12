@@ -1,7 +1,25 @@
 import React from 'react';
-import { FaMoon } from "react-icons/fa";
-import { FaShare } from "react-icons/fa";
+import { FaMoon, FaShare } from "react-icons/fa";
+
 const Header = () => {
+    const handleShare = () => {
+        const url = window.location.href;
+        const title = document.title;
+
+        if (navigator.share) {
+            // Web Share API is supported
+            navigator.share({
+                title: title,
+                url: url
+            }).catch(error => console.error('Error sharing:', error));
+        } else {
+            // Fallback: copy link to clipboard
+            navigator.clipboard.writeText(url).then(() => {
+                alert("Link copied to clipboard!");
+            }).catch(error => console.error('Error copying link:', error));
+        }
+    };
+
     return (
         <nav className="navbar navbar-expand-lg bg-body-tertiary" style={{ background: 'grey' }}>
             <div className="container-fluid">
@@ -16,20 +34,16 @@ const Header = () => {
                                 Home
                             </a>
                         </li>
-
                         <li className="nav-item">
                             <a href="#features" className="nav-link">
                                 Features
                             </a>
                         </li>
-
-
                         <li className="nav-item">
                             <a href="#faq" className="nav-link">
                                 FAQs
                             </a>
                         </li>
-
                         <li className="nav-item">
                             <a href="/about" className="nav-link">
                                 About
@@ -37,7 +51,10 @@ const Header = () => {
                         </li>
                     </ul>
                     <div className="d-flex">
-                        <button className="btn btn-info btn-lg me-1 fw-semibold text-light" type="submit">Share <FaShare /></button>                    </div>
+                        <button className="btn btn-info btn-lg me-1 fw-semibold text-light" onClick={handleShare} type="button">
+                            Share <FaShare />
+                        </button>
+                    </div>
                 </div>
             </div>
         </nav>
