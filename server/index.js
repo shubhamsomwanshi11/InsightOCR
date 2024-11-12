@@ -21,8 +21,9 @@ const PORT = process.env.PORT || 9860;
 
 // Middleware
 app.use(express.json());
-app.use(cors());
-// app.use('/', routes);
+app.use(cors({
+    origin: 'https://insightocr.vercel.app'
+}));
 
 app.post('/extract', upload.single('file'), async (req, res) => {
     const file = req.file;
