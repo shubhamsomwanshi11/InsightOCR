@@ -6,7 +6,7 @@ const fs = require('fs');
 const { GoogleGenerativeAI } = require("@google/generative-ai");
 
 const { processImage } = require('./controllers/imageController');
-const { processPDF } = require('./controllers/pdfController');
+// const { processPDF } = require('./controllers/pdfController');
 
 dotenv.config();
 let model;
@@ -40,8 +40,8 @@ app.post('/extract', upload.single('file'), async (req, res) => {
         let extractedText;
 
         if (file.mimetype === 'application/pdf') {
-            extractedText = await processPDF(file.path);
-
+            // extractedText = await processPDF(file.path);
+            return res.status(400).json({ error: 'Unsupported file type' });
         } else if (file.mimetype.startsWith('image/')) {
             extractedText = await processImage(file.path);
         } else {
