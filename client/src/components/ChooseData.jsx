@@ -154,43 +154,93 @@ const ChooseData = () => {
     }
 
     return (
-        <div className="card mt-4">
-            <div className="card-body">
-                <h2 className="fs-3 text-center mb-2">Extract from Document</h2>
-                <div className="row">
-                    <div className="col-5">
-                        <div className="card">
-                            <div className="card-body">
-                                <div style={{ border: '4px dotted grey', borderRadius: '8px', padding: '20px' }}>
-                                    <label htmlFor="formFileLg" className="form-label text-center fs-5 fw-semibold">Upload Document</label>
-                                    <div className="row">
-                                        <div className="col">
-                                            <input className="form-control form-control-lg" id="formFileLg" onInput={handleInput} type="file" />
-                                        </div>
-                                        {/* <div className="col-2">
-                                            <Drive />
-                                        </div>
-                                        <div className="col-2">
-                                            <button disabled type="button" className="btn fs-5 fw-semibold"><GrOnedrive className='fs-2 text-primary' /></button>
-                                        </div>
-                                        <div className="col-2">
-                                            <DropBox />
-                                        </div> */}
+        <div className="container-fluid mt-4">
+            <div className="card">
+                <div className="card-body">
+                    <h2 className="text-center fs-3 mb-3">Extract from Document</h2>
+
+                    {/* Row for Upload & Export */}
+                    <div className="row gy-3">
+                        <div className="col-12 col-md-6 col-lg-4">
+                            <div className="card h-100">
+                                <div className="card-body">
+                                    <div className="border border-dotted rounded p-3">
+                                        <label className="form-label fs-5 fw-semibold">Upload Document</label>
+                                        <input
+                                            className="form-control form-control-lg"
+                                            id="formFileLg"
+                                            type="file"
+                                            onInput={handleInput}
+                                        />
                                     </div>
                                 </div>
+                            </div>
+                        </div>
 
+                        <div className="col-12 col-md-6 col-lg-4">
+                            <div className="card h-100">
+                                <div className="card-body">
+                                    <div className="border border-dotted rounded p-3">
+                                        <label className="form-label fs-5 fw-semibold">Download Export Data</label>
+                                        <div className="d-flex">
+                                            <select
+                                                className="form-select me-3"
+                                                value={format}
+                                                onChange={handleFormatChange}
+                                            >
+                                                <option value="JSON">JSON</option>
+                                                <option value="XML">XML</option>
+                                                <option value="CSV">CSV</option>
+                                                <option value="TEXT">TEXT</option>
+                                            </select>
+                                            <button
+                                                onClick={() => downloadFile(format, value)}
+                                                className="btn btn-primary text-light fw-semibold"
+                                            >
+                                                Export
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="col-12 col-lg-4">
+                            <div className="card h-100">
+                                <div className="card-body">
+                                    <div className="border border-dotted rounded p-3">
+                                        <label className="form-label fs-5 fw-semibold">Save Data</label>
+                                        <div className="d-flex justify-content-around">
+                                            <button className="btn btn-light text-primary">
+                                                <FaGoogleDrive className="fs-2" />
+                                                <br /> GoogleDrive
+                                            </button>
+                                            <button className="btn btn-light text-primary">
+                                                <GrOnedrive className="fs-2" />
+                                                <br /> OneDrive
+                                            </button>
+                                            <button className="btn btn-light text-primary">
+                                                <FaDropbox className="fs-2" />
+                                                <br /> DropBox
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>
-                    <div className="col-3">
-                        <div className="card" style={{ height: '100%' }}>
-                            <div className="card-body">
-                                <div style={{ border: '4px dotted purple', borderRadius: '8px', padding: '20px' }}>
-                                    <label htmlFor="format" className="form-label fs-5 fw-semibold">Download Export Data</label>
+
+                    <hr />
+
+                    {/* Row for Result & Fields */}
+                    <div className="row gy-3">
+                        <div className="col-12 col-lg-8">
+                            <div>
+                                <div className="d-flex justify-content-between mb-2">
+                                    <h3 className="fw-semibold">Result</h3>
                                     <div className="d-flex">
                                         <select
-                                            className="form-select me-3"
-                                            id="format"
+                                            className="form-select me-2"
                                             value={format}
                                             onChange={handleFormatChange}
                                         >
@@ -199,74 +249,42 @@ const ChooseData = () => {
                                             <option value="CSV">CSV</option>
                                             <option value="TEXT">TEXT</option>
                                         </select>
-                                        <button onClick={() => { downloadFile(format, value) }} className="btn fw-semibold btn-primary text-light">
-                                            Export
+                                        <button
+                                            className="btn btn-success fw-semibold"
+                                            onClick={handleCopy}
+                                        >
+                                            Copy <FaCopy />
                                         </button>
                                     </div>
                                 </div>
+                                <CodeMirror
+                                    value={value}
+                                    extensions={[currentExtension]}
+                                    onChange={(val) => setValue(val)}
+                                    style={{ height: '60vh', width: '100%' }}
+                                />
                             </div>
                         </div>
-                    </div>
-                    <div className="col-4">
-                        <div className="card">
-                            <div className="card-body">
-                                <div style={{ border: '4px dotted #33ff33', borderRadius: '8px', padding: '5px' }}>
-                                    <div className='text-center mt-2'>
-                                        <span className="fs-5 fw-semibold text-center">Save Data</span>
-                                    </div>
-                                    <div className='d-flex justify-content-space-between' style={{ width: '100%' }}>
-                                        <button type="button" onClick={() => { toast.info("Coming Soon!") }} className="btn fs-5"><FaGoogleDrive className='fs-2' /> <br /> GoogleDrive</button>
-                                        <button type="button" onClick={() => { toast.info("Coming Soon!") }} className="btn fs-5 fw-semibold"><GrOnedrive className='fs-2 text-primary' /> <br />OneDrive</button>
-                                        <button type="button" onClick={() => { toast.info("Coming Soon!") }} className="btn fs-5 fw-semibold"><FaDropbox className='fs-2 text-primary' /><br /> DropBox</button>
-                                    </div>
-                                </div>
+                        <div className="col-12 col-lg-4">
+                            <div className="border p-3 bg-light rounded">
+                                <h3 className="fs-4">Choose Fields to Extract</h3>
+                                <hr />
+                                <Tree
+                                    checked={checked}
+                                    updateEditorVal={updateEditorVal}
+                                    expanded={expanded}
+                                    setChecked={setChecked}
+                                    setExpanded={setExpanded}
+                                    jsonData={jsonData}
+                                />
                             </div>
                         </div>
-                    </div>
-                </div>
-                <hr />
-                <div className='row mt-3' style={{ height: '80vh' }}>
-                    <div className='col-8'>
-                        <div className="row">
-                            <div className="col-6">
-                                <h3 className="fw-semibold mx-1">Result</h3>
-                            </div>
-                            <div className='col-6 d-flex justify-content-end mb-3'>
-                                <select
-                                    style={{ width: 'auto' }}
-                                    className="form-select me-2"
-                                    id="format"
-                                    value={format}
-                                    onChange={handleFormatChange}
-                                >
-                                    <option value="JSON">JSON</option>
-                                    <option value="XML">XML</option>
-                                    <option value="CSV">CSV</option>
-                                    <option value="TEXT">TEXT</option>
-                                </select>
-                                <button className='btn btn-success fw-semibold' onClick={handleCopy}>Copy <FaCopy /></button>
-                            </div>
-                        </div>
-                        <CodeMirror
-                            style={{ height: '80vh', overflow: 'auto', width: '100%' }}
-                            value={value}
-                            extensions={[currentExtension]}
-                            onChange={(val) => setValue(val)}
-                        />
-                    </div>
-                    <div className='col-4 fs-5' style={{ padding: '20px', backgroundColor: '#f8f9fa', overflow: 'auto', height: '80vh' }}>
-                        <h3 className='fs-3'>Choose fields to Extract</h3>
-                        <hr />
-                        <Tree checked={checked} updateEditorVal={updateEditorVal} expanded={expanded} setChecked={setChecked} setExpanded={setExpanded} jsonData={jsonData} />
                     </div>
                 </div>
             </div>
-            {isLoading &&
-                <Loader />
-            }
+            {isLoading && <Loader />}
             <ToastContainer />
         </div>
     );
 };
-
 export default ChooseData;

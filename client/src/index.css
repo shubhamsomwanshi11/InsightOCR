@@ -38,10 +38,42 @@ body {
 }
 
 .loader-container {
-  position: absolute;
-  top: 50%;
-  left: 20%;
-  transform: translate(-50%, -50%);
+  position: fixed;
+  /* Ensure it covers the entire viewport */
+  top: 0;
+  left: 0;
+  width: 100vw;
   height: 100vh;
-  background-color: rgba(240, 248, 255, 0.116);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  /* Center the loader both vertically and horizontally */
+  backdrop-filter: blur(1px);
+  /* Apply blur effect */
+  background-color: rgba(240, 248, 255, 0.3);
+  /* Slight overlay for better visibility */
+  z-index: 9999;
+  /* Ensure it appears above other elements */
+}
+
+.loader {
+  width: 50px;
+  height: 50px;
+  border: 5px solid #f3f3f3;
+  /* Light border */
+  border-top: 5px solid #3498db;
+  /* Spinner color */
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  /* Spin animation */
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
