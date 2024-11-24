@@ -1,4 +1,5 @@
 const Tesseract = require('tesseract.js');
+const sharp = require('sharp');
 const fs = require('fs');
 const processImage = async (filePath) => {
     try {
@@ -6,14 +7,14 @@ const processImage = async (filePath) => {
         const data = await fs.promises.readFile(filePath);
 
         // Process the image in memory with sharp
-        // const processedImageBuffer = await sharp(data)
-        //     .resize({ width: 2000 })
-        //     .grayscale()
-        //     .toFormat('jpeg', { quality: 40 })  
-        //     .toBuffer();
+        const processedImageBuffer = await sharp(data)
+            .resize({ width: 2000 })
+            .grayscale()
+            .toFormat('jpeg', { quality: 40 })  
+            .toBuffer();
 
         // Use Tesseract to extract text from the processed image buffer
-        const result = await Tesseract.recognize(data, 'eng', {
+        const result = await Tesseract.recognize(processedImageBuffer, 'eng', {
             tessedit_pageseg_mode: Tesseract.PSM.AUTO_OSD,
             tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,.-/: ',
         });
