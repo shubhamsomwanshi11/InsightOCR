@@ -261,7 +261,7 @@ const ChooseData = () => {
                                     value={value}
                                     extensions={[currentExtension]}
                                     onChange={(val) => setValue(val)}
-                                    style={{ height: '60vh', width: '100%' }}
+                                    style={{ width: '100%' }}
                                 />
                             </div>
                         </div>
