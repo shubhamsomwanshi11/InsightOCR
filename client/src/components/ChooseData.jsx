@@ -47,7 +47,7 @@ const ChooseData = () => {
             formData.append('file', file);
             setIsLoading(true);
             try {
-                const response = await axios.post('http://localhost:9860/extract', formData, {
+                const response = await axios.post('https://insightocr.onrender.com/extract', formData, {
                     headers: {
                         'Content-Type': 'multipart/form-data'
                     }
