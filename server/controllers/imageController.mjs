@@ -1,6 +1,6 @@
-const Tesseract = require('tesseract.js');
-const sharp = require('sharp');
-const fs = require('fs');
+import Tesseract from 'tesseract.js';
+import sharp from 'sharp';
+import fs from 'fs';
 const processImage = async (filePath) => {
     try {
         // Read the file as a buffer to avoid file locking issues
@@ -10,7 +10,7 @@ const processImage = async (filePath) => {
         const processedImageBuffer = await sharp(data)
             .resize({ width: 2000 })
             .grayscale()
-            .toFormat('jpeg', { quality: 40 })  
+            .toFormat('jpeg', { quality: 40 })
             .toBuffer();
 
         // Use Tesseract to extract text from the processed image buffer
@@ -35,4 +35,4 @@ const processImage = async (filePath) => {
     }
 };
 
-module.exports = { processImage };
+export { processImage };

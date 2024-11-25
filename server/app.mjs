@@ -1,12 +1,11 @@
-const express = require('express');
-const multer = require('multer');
-const dotenv = require('dotenv');
-const cors = require('cors');
-const fs = require('fs');
-const { GoogleGenerativeAI } = require("@google/generative-ai");
+import express from 'express';
+import multer from 'multer';
+import dotenv from 'dotenv';
+import cors from 'cors';
+import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const { processImage } = require('./controllers/imageController');
-const { processPDF } = require('./controllers/pdfController');
+import { processImage } from './controllers/imageController.mjs';
+import { processPDF } from './controllers/pdfController.mjs';
 
 dotenv.config();
 let model;

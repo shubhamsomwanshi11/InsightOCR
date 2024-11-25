@@ -1,10 +1,10 @@
-const fs = require('fs');
-const path = require('path');
-const { exportImages } = import('pdf-export-images');
-const Tesseract = require('tesseract.js');
-const sharp = require('sharp'); // Include sharp for image processing
+import fs from 'fs';
+import path from 'path';
+import { exportImages } from 'pdf-export-images';
+import Tesseract from 'tesseract.js';
+import sharp from 'sharp';
 
-// Function to convert PDF to images
+// Function to convert PDF to image
 const convertPdfToImages = async (pdfPath, outputDir) => {
     try {
         const images = await exportImages(pdfPath, outputDir);
@@ -95,4 +95,4 @@ const processPDF = async (pdfPath) => {
     }
 };
 
-module.exports = { processPDF };
+export { processPDF };
