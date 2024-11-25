@@ -20,7 +20,7 @@ const preprocessImage = async (inputPath, outputPath) => {
     try {
         await sharp(inputPath)
             .grayscale() // Convert to grayscale for better OCR accuracy
-            .resize({ width: 1000 }) // Resize to a fixed width to normalize input
+            .resize({ width: 2000 }) // Resize to a fixed width to normalize input
             .sharpen() // Enhance edges
             .toFile(outputPath);
     } catch (error) {
@@ -46,6 +46,7 @@ const performOcrAndDeleteImages = async (imageDir) => {
                 // Perform OCR on the preprocessed image
                 const ocrResult = await Tesseract.recognize(preprocessedPath, 'eng', {
                     tessedit_pageseg_mode: Tesseract.PSM.AUTO_OSD,
+                    tessedit_char_whitelist: 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789,.-/: ',
                 });
 
                 extractedText += ` ${ocrResult.data.text}`;
