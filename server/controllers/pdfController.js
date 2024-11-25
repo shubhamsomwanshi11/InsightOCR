@@ -1,6 +1,6 @@
 const fs = require('fs');
 const path = require('path');
-const { exportImages } = require('pdf-export-images');
+const { exportImages } = import('pdf-export-images');
 const Tesseract = require('tesseract.js');
 const sharp = require('sharp'); // Include sharp for image processing
 
