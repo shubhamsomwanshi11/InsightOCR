@@ -2,6 +2,7 @@ import express from 'express';
 import multer from 'multer';
 import dotenv from 'dotenv';
 import cors from 'cors';
+import axios from 'axios';
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
 import { processImage } from './controllers/imageController.mjs';
@@ -25,7 +26,7 @@ const PORT = process.env.PORT || 9860;
 // Middleware
 app.use(express.json());
 app.use(cors({
-    origin: 'https://insightocr.vercel.app'
+    origin: ['https://insightocr.vercel.app', 'https://insightocr.onrender.com']
 }));
 
 app.post('/extract', upload.single('file'), async (req, res) => {
@@ -73,6 +74,21 @@ app.post('/extract', upload.single('file'), async (req, res) => {
         res.status(500).json({ error: 'Error extracting data or generating output' });
     }
 });
+
+app.get('/health', (req, res) => {  
+    res.json({ status: 'ok' });
+});
+
+
+const PING_INTERVAL = 14 * 60 * 1000;
+setInterval(async () => {
+    try {
+        const response = await axios.get('https://insightocr.onrender.com/health');
+        console.log(`Self-ping successful: ${response.status}`);
+    } catch (error) {
+        console.error('Self-ping failed:', error);
+    }
+}, PING_INTERVAL);
 
 app.listen(PORT, () => {
     console.log(`Server running on port ${PORT}`);
